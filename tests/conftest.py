@@ -96,5 +96,9 @@ def populated_repository(
 ) -> InMemoryUserRepository:
     """サンプルデータが入ったリポジトリ"""
     for user_data in sample_users_data:
-        test_user_repository.create(**user_data)
+        test_user_repository.create(
+            name=str(user_data["name"]),
+            email=str(user_data["email"]),
+            age=int(user_data["age"]),
+        )
     return test_user_repository

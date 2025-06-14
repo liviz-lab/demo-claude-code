@@ -153,7 +153,7 @@ class TestValidationErrorConversion:
     def test_convert_request_validation_error(self) -> None:
         """RequestValidationErrorの変換テスト"""
         # RequestValidationErrorのモックを作成
-        error_data = [
+        error_data: list[dict[str, Any]] = [
             {"loc": ("body", "name"), "msg": "field required", "type": "value_error.missing"},
             {
                 "loc": ("body", "age"),
@@ -188,7 +188,7 @@ class TestExceptionHandlers:
         request = Mock(spec=Request)
 
         # RequestValidationErrorモック
-        error_data = [{"loc": ("body", "name"), "msg": "field required", "type": "value_error.missing"}]
+        error_data: list[dict[str, Any]] = [{"loc": ("body", "name"), "msg": "field required", "type": "value_error.missing"}]
 
         class MockRequestValidationError:
             def errors(self) -> list[dict[str, Any]]:
