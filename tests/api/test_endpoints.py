@@ -113,7 +113,7 @@ class TestUserEndpoints:
         assert data["age"] == sample_user_data["age"]
 
     @pytest.mark.api
-    def test_get_user_by_id_not_found(self, client: TestClient, auth_headers: dict):
+    def test_get_user_by_id_not_found(self, client: TestClient, auth_headers: dict[str, str]) -> None:
         """存在しないユーザーID取得テスト"""
         response = client.get("/api/v1/users/999", headers=auth_headers)
 
@@ -123,7 +123,7 @@ class TestUserEndpoints:
         assert "見つかりません" in data["message"]
 
     @pytest.mark.api
-    def test_update_user_success(self, client: TestClient, auth_headers: dict, sample_user_data: dict):
+    def test_update_user_success(self, client: TestClient, auth_headers: dict[str, str], sample_user_data: dict[str, str | int]) -> None:
         """ユーザー更新成功テスト"""
         # ユーザー作成
         create_response = client.post("/api/v1/users", json=sample_user_data, headers=auth_headers)
@@ -141,7 +141,7 @@ class TestUserEndpoints:
         assert data["user"]["email"] == sample_user_data["email"]  # 変更されていない
 
     @pytest.mark.api
-    def test_update_user_not_found(self, client: TestClient, auth_headers: dict):
+    def test_update_user_not_found(self, client: TestClient, auth_headers: dict[str, str]) -> None:
         """存在しないユーザー更新テスト"""
         update_data = {"name": "更新後ユーザー"}
         response = client.put("/api/v1/users/999", json=update_data, headers=auth_headers)
@@ -151,7 +151,7 @@ class TestUserEndpoints:
         assert data["code"] == "RES_002"
 
     @pytest.mark.api
-    def test_delete_user_success(self, client: TestClient, auth_headers: dict, sample_user_data: dict):
+    def test_delete_user_success(self, client: TestClient, auth_headers: dict[str, str], sample_user_data: dict[str, str | int]) -> None:
         """ユーザー削除成功テスト"""
         # ユーザー作成
         create_response = client.post("/api/v1/users", json=sample_user_data, headers=auth_headers)
@@ -170,7 +170,7 @@ class TestUserEndpoints:
         assert get_response.status_code == 404
 
     @pytest.mark.api
-    def test_delete_user_not_found(self, client: TestClient, auth_headers: dict):
+    def test_delete_user_not_found(self, client: TestClient, auth_headers: dict[str, str]) -> None:
         """存在しないユーザー削除テスト"""
         response = client.delete("/api/v1/users/999", headers=auth_headers)
 
@@ -179,7 +179,7 @@ class TestUserEndpoints:
         assert data["code"] == "RES_002"
 
     @pytest.mark.api
-    def test_get_users_with_filters(self, client: TestClient, auth_headers: dict):
+    def test_get_users_with_filters(self, client: TestClient, auth_headers: dict[str, str]) -> None:
         """フィルター付きユーザーリスト取得テスト"""
         # テストユーザーを複数作成
         users_data = [
@@ -216,7 +216,7 @@ class TestRootEndpoint:
     """ルートエンドポイントのテスト"""
 
     @pytest.mark.api
-    def test_root_endpoint(self, client: TestClient):
+    def test_root_endpoint(self, client: TestClient) -> None:
         """ルートエンドポイントテスト"""
         response = client.get("/")
 
@@ -233,7 +233,7 @@ class TestAsyncEndpoints:
     """非同期エンドポイントのテスト"""
 
     @pytest.mark.api
-    async def test_async_create_user(self, async_client: AsyncClient, auth_headers: dict, sample_user_data: dict):
+    async def test_async_create_user(self, async_client: AsyncClient, auth_headers: dict[str, str], sample_user_data: dict[str, str | int]) -> None:
         """非同期でのユーザー作成テスト"""
         response = await async_client.post("/api/v1/users", json=sample_user_data, headers=auth_headers)
 
@@ -243,7 +243,7 @@ class TestAsyncEndpoints:
         assert data["user"]["name"] == sample_user_data["name"]
 
     @pytest.mark.api
-    async def test_async_get_users(self, async_client: AsyncClient, auth_headers: dict):
+    async def test_async_get_users(self, async_client: AsyncClient, auth_headers: dict[str, str]) -> None:
         """非同期でのユーザーリスト取得テスト"""
         response = await async_client.get("/api/v1/users", headers=auth_headers)
 
